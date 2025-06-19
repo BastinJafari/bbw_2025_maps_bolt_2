@@ -43,5 +43,8 @@
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "none"
+  },
+  "devDependencies": {
+    "dotenv": "^16.5.0"
   }
 }
