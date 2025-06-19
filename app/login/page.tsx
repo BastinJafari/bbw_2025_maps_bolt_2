@@ -9,6 +9,8 @@ import {
 import { signInWithGitHub } from './actions';
 import { Zap, Github } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex justify-center items-start md:items-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950 dark:to-indigo-950">
