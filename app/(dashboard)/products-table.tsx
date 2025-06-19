@@ -30,11 +30,12 @@ export function ProductsTable({
   offset: number;
   totalProducts: number;
 }) {
-  let router = useRouter();
-  let productsPerPage = 5;
+  const router = useRouter();
+  const productsPerPage = 5;
 
   function prevPage() {
-    router.back();
+    const newOffset = Math.max(0, offset - productsPerPage);
+    router.push(`/?offset=${newOffset}`, { scroll: false });
   }
 
   function nextPage() {
@@ -76,37 +77,37 @@ export function ProductsTable({
         </Table>
       </CardContent>
       <CardFooter>
-        <form className="flex items-center w-full justify-between">
+        <div className="flex items-center w-full justify-between">
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+              {Math.max(0, Math.min(offset - productsPerPage + 1, totalProducts))}-{Math.min(offset + productsPerPage, totalProducts)}
             </strong>{' '}
             of <strong>{totalProducts}</strong> products
           </div>
           <div className="flex">
             <Button
-              formAction={prevPage}
+              onClick={prevPage}
               variant="ghost"
               size="sm"
-              type="submit"
-              disabled={offset === productsPerPage}
+              type="button"
+              disabled={offset === 0}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
             </Button>
             <Button
-              formAction={nextPage}
+              onClick={nextPage}
               variant="ghost"
               size="sm"
-              type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              type="button"
+              disabled={offset + productsPerPage >= totalProducts}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
-        </form>
+        </div>
       </CardFooter>
     </Card>
   );

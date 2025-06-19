@@ -1,25 +1,23 @@
-import {
-  pgTable,
-  text,
-  numeric,
-  integer,
-  timestamp,
-  pgEnum,
-  serial
-} from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+// Mock schema for development without database
+export interface SelectProduct {
+  id: number;
+  imageUrl: string;
+  name: string;
+  status: 'active' | 'inactive' | 'archived';
+  price: string;
+  stock: number;
+  availableAt: Date;
+}
 
-export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
+// Mock schema object for compatibility
+export const products = {
+  $inferSelect: {} as SelectProduct
+};
 
-export const products = pgTable('products', {
-  id: serial('id').primaryKey(),
-  imageUrl: text('image_url').notNull(),
-  name: text('name').notNull(),
-  status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
-});
+export const insertProductSchema = {
+  parse: (data: any) => data
+};
 
-export type SelectProduct = typeof products.$inferSelect;
-export const insertProductSchema = createInsertSchema(products); 
+export const statusEnum = {
+  enumValues: ['active', 'inactive', 'archived'] as const
+};
