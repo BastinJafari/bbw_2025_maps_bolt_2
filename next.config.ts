@@ -1,22 +1,7 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-      },
-    ],
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // reactStrictMode: true, // You can uncomment this if needed
+  // Add any other Next.js specific configurations here
 };
 
 export default nextConfig;
