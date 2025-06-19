@@ -1,21 +1,16 @@
-<div align="center"><strong>Next.js 15 Admin Dashboard Template</strong></div>
-<div align="center">Built with the Next.js App Router</div>
+<div align="center"><strong>Next.js 15 Hackathon Starter</strong></div>
+<div align="center">Built with the Next.js App Router, Tailwind CSS, and Drizzle</div>
 <br />
-<div align="center">
-<a href="https://next-admin-dash.vercel.app/">Demo</a>
-<span> · </span>
-<a href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">Clone & Deploy</a>
-<span>
-</div>
 
 ## Overview
 
-This is a starter template using the following stack:
+This is a starter template for your next hackathon project, using the following stack:
 
 - Framework - [Next.js (App Router)](https://nextjs.org)
 - Language - [TypeScript](https://www.typescriptlang.org)
 - Auth - [Auth.js](https://authjs.dev)
 - Database - [Postgres](https://vercel.com/postgres)
+- ORM - [Drizzle](https://orm.drizzle.team/)
 - Deployment - [Vercel](https://vercel.com/docs/concepts/next.js/overview)
 - Styling - [Tailwind CSS](https://tailwindcss.com)
 - Components - [Shadcn UI](https://ui.shadcn.com/)
@@ -36,28 +31,23 @@ These instructions will guide you through setting up the project to run on your 
 
 ### 1. Clone the Repository and Install Dependencies
 
+You can clone this repository to get started. If you are in a Bolt session, it will be cloned for you.
+
 ```bash
-git clone https://github.com/your-username/your-repo-name.git # Change this to your repo URL
+git clone https://github.com/your-username/your-repo-name.git # <-- IMPORTANT: Change this to your repo URL
 cd your-repo-name
 pnpm install
 ```
 
 ### 2. Set Up Environment Variables
 
-Create a `.env` file in the root of the project. You can do this by copying the `.env.example` if it exists, or by creating a new file. Add the following content, replacing the placeholder values:
+Create a `.env` file in the root of the project by copying the example file:
 
-```env
-# Example URL for a local PostgreSQL database
-POSTGRES_URL="postgresql://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/YOUR_DATABASE_NAME"
-
-# You can generate a new secret with `openssl rand -base64 32`
-NEXTAUTH_URL=http://localhost:3000
-AUTH_SECRET="YOUR_AUTH_SECRET"
-
-# GitHub OAuth credentials (optional, for authentication)
-AUTH_GITHUB_ID=
-AUTH_GITHUB_SECRET=
+```bash
+cp .env.example .env
 ```
+
+Then, open `.env` and add your specific credentials.
 
 ### 3. Create the Database
 
@@ -81,7 +71,7 @@ This project uses `drizzle-kit` to manage database schema migrations.
   pnpm drizzle-kit migrate
   ```
 
-Run the `migrate` command now to set up your initial tables.
+Since the template starts with an empty schema, you don't need to run migrations initially. Once you define your tables in `lib/schema.ts`, you can generate and apply your first migration.
 
 ### 5. Run the Development Server
 

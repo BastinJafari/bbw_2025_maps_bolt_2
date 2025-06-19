@@ -1,23 +1,10 @@
-// Mock schema for development without database
-export interface SelectProduct {
-  id: number;
-  imageUrl: string;
-  name: string;
-  status: 'active' | 'inactive' | 'archived';
-  price: string;
-  stock: number;
-  availableAt: Date;
-}
+// This is where you can define your database schema using Drizzle ORM.
+// See the Drizzle ORM documentation for more information: https://orm.drizzle.team/docs/sql-schema-declaration
 
-// Mock schema object for compatibility
-export const products = {
-  $inferSelect: {} as SelectProduct
-};
+// import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
-export const insertProductSchema = {
-  parse: (data: any) => data
-};
-
-export const statusEnum = {
-  enumValues: ['active', 'inactive', 'archived'] as const
-};
+// export const exampleTable = pgTable('example_table', {
+//   id: serial('id').primaryKey(),
+//   name: text('name'),
+//   createdAt: timestamp('created_at').defaultNow(),
+// });
