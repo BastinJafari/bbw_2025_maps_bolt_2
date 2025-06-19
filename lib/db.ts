@@ -95,9 +95,6 @@ export async function getProducts(
   newOffset: number | null;
   totalProducts: number;
 }> {
-  // Simulate async operation
-  await new Promise(resolve => setTimeout(resolve, 100));
-
   let filteredProducts = mockProducts;
 
   // Apply search filter
@@ -127,9 +124,6 @@ export async function getProducts(
 }
 
 export async function deleteProductById(id: number) {
-  // Simulate async operation
-  await new Promise(resolve => setTimeout(resolve, 100));
-  
   const index = mockProducts.findIndex(product => product.id === id);
   if (index > -1) {
     mockProducts.splice(index, 1);
