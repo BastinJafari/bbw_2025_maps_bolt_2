@@ -1,0 +1,60 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# New Feature Implementation Guideline
+
+When you are asked to implement a new feature, follow these steps and best practices precisely.
+
+## 1. Understand the Tech Stack
+
+This project is a modern web application built with the following core technologies. Refer to `package.json` for a full list of dependencies.
+
+- **Framework**: Next.js (App Router)
+- **Database ORM**: Drizzle ORM with PostgreSQL
+- **Authentication**: NextAuth.js
+- **UI**: Tailwind CSS with Shadcn UI components.
+- **Styling**: `tailwind-merge` and `clsx` for class name composition (`cn` utility).
+- **Type Safety**: TypeScript, with `drizzle-zod` for schema validation.
+
+@package.json
+
+## 2. The Schema is the Single Source of Truth
+
+**This is the most important step.** Before writing any feature code, analyze the requirements and determine if any changes are needed to the database schema.
+
+- **Location**: The database schemas are located in `lib/db/schema/`. The main file that exports all schemas is `lib/db/schema.ts`.
+- **Your Task**:
+    1.  Examine the files in `lib/db/schema/` (e.g., `users.ts`, `products.ts`, etc.).
+    2.  If the new feature requires new tables or columns, **you must update or create the relevant schema file first.**
+    3.  If you add a new schema file (e.g., `orders.ts`), you must also export it from the main `lib/db/schema.ts` file.
+
+@lib/db/schema.ts
+
+## 3. Recommended Development Workflow
+
+Follow this workflow, which is based on Next.js best practices, to ensure quality, performance, and maintainability.
+
+### A. Backend & Data Layer
+1.  **Schema First**: As mentioned above, modify the Drizzle schema in `lib/db/schema/`.
+2.  **Use Server Actions for Mutations**: For any data creation, update, or deletion operations triggered by the client, use **Server Actions**. These are `async` functions marked with `'use server'` that can be called directly from your client components. This is the primary method for handling mutations and provides end-to-end typesafety without an API layer. Place shared actions in files like `app/(dashboard)/actions.ts`.
+3.  **Data Fetching & Validation**:
+    *   **In Server Components**: Fetch data by calling your database query functions directly within the component. This is the most direct and type-safe way to get data on the server.
+    *   **Validation**: Inside your Server Actions, use **Zod** (with `drizzle-zod`) to validate all incoming data from the client. This is crucial for security and data integrity.
+    *   **Generating Types from Zod**: After defining a Zod schema for validation, immediately infer the TypeScript type from it using `z.infer<typeof yourSchema>`. Co-locate this generated type definition with the Zod schema itself (e.g., in your `actions.ts` file). This keeps your types and their corresponding validation logic tightly coupled and easy to manage.
+
+### B. Frontend & UI
+1.  **Component-Based Architecture**: Build UI with React components. Place reusable, general-purpose components in `components/ui/`. Place page-specific or feature-specific components alongside the pages that use them (e.g., in `app/(dashboard)/customers/`).
+2.  **Styling**: Use Tailwind CSS for all styling. Use Shadcn UI components from `components/ui/` as a base and customize them as needed. Use the `cn()` utility from `lib/utils.ts` to merge class names.
+3.  **Client-Side Navigation**: Always use the `<Link>` component from `next/link` for navigating between pages.
+4.  **Image & Font Optimization**: Use the `<Image>` component from `next/image` and the `next/font` module for automatic optimization, which is crucial for performance.
+
+### C. Authentication & Authorization
+- **Authentication**: Handled by NextAuth.js (see `lib/auth.ts`).
+- **Authorization**: Use the `auth` object exported from `lib/auth.ts` to get the user's session in server components and API routes to protect routes and data.
+
+## 4. Final Checks
+- Ensure all new code is typed correctly with TypeScript.
+- Add comments only for complex logic that isn't self-explanatory.
+- Make sure the application builds successfully (`pnpm build`).
