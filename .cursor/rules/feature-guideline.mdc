@@ -12,8 +12,8 @@ When you are asked to implement a new feature, follow these steps and best pract
 This project is a modern web application built with the following core technologies. Refer to `package.json` for a full list of dependencies.
 
 - **Framework**: Next.js (App Router)
-- **Database ORM**: Drizzle ORM with PostgreSQL
-- **Authentication**: NextAuth.js
+- **Database ORM**: Drizzle ORM with PostgreSQL. The database client is instantiated in `lib/db.ts`.
+- **Authentication**: NextAuth.js. See `lib/auth.ts`.
 - **UI**: Tailwind CSS with Shadcn UI components.
 - **Styling**: `tailwind-merge` and `clsx` for class name composition (`cn` utility).
 - **Type Safety**: TypeScript, with `drizzle-zod` for schema validation.
@@ -45,7 +45,9 @@ Follow this workflow, which is based on Next.js best practices, to ensure qualit
     *   **Generating Types from Zod**: After defining a Zod schema for validation, immediately infer the TypeScript type from it using `z.infer<typeof yourSchema>`. Co-locate this generated type definition with the Zod schema itself (e.g., in your `actions.ts` file). This keeps your types and their corresponding validation logic tightly coupled and easy to manage.
 
 ### B. Frontend & UI
-1.  **Component-Based Architecture**: Build UI with React components. Place reusable, general-purpose components in `components/ui/`. Place page-specific or feature-specific components alongside the pages that use them (e.g., in `app/(dashboard)/customers/`).
+1.  **Component-Based Architecture**: Build UI with React components.
+    *   Place reusable, general-purpose components in `components/ui/`.
+    *   For page-specific components, create a `components` sub-directory within the feature's route folder (e.g., `app/(dashboard)/products/components/product-list.tsx`). Avoid placing one-off components directly in the root of a route directory.
 2.  **Styling**: Use Tailwind CSS for all styling. Use Shadcn UI components from `components/ui/` as a base and customize them as needed. Use the `cn()` utility from `lib/utils.ts` to merge class names.
 3.  **Client-Side Navigation**: Always use the `<Link>` component from `next/link` for navigating between pages.
 4.  **Image & Font Optimization**: Use the `<Image>` component from `next/image` and the `next/font` module for automatic optimization, which is crucial for performance.
@@ -54,7 +56,10 @@ Follow this workflow, which is based on Next.js best practices, to ensure qualit
 - **Authentication**: Handled by NextAuth.js (see `lib/auth.ts`).
 - **Authorization**: Use the `auth` object exported from `lib/auth.ts` to get the user's session in server components and API routes to protect routes and data.
 
-## 4. Final Checks
+## 4. Seeding Development Data
+- To populate your local database for development, add or modify the logic in the `app/api/seed/route.ts` file. This endpoint is for setting up a consistent data state.
+
+## 5. Final Checks
 - Ensure all new code is typed correctly with TypeScript.
 - Add comments only for complex logic that isn't self-explanatory.
 - Make sure the application builds successfully (`pnpm build`).
